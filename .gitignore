@@ -1,1 +1,5 @@
 .idea/
+bill-decode-darwin
+bill-decode-linux
+bill-decode.exe
+.vscode/
