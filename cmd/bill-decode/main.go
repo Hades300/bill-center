@@ -1,10 +1,11 @@
 package main
 
 import (
-	billDecode "bill-center/pkg/bill-decode"
 	"flag"
 	"fmt"
 	"log"
+
+	billDecode "github.com/hades300/bill-center/pkg/bill-decode"
 )
 var pdfFile string
 // var pdfDir string

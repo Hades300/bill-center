@@ -53,3 +53,18 @@ func TestBaiduImageOCRByFile(t *testing.T){
 	assert.NoError(t,err)
 	fmt.Print(res)
 }
+
+
+func TestParseBillImageQRCodeResult(t *testing.T){
+	s:="01,10,036001900111,09781653,17.70,20211017,81045826961248021535,134F,"
+	ret,err:=ParseBillImageQRCodeResult([]byte(s))
+	assert.NoError(t,err)
+	ans:=&BillImageQRCodeResult{
+		CheckCode:"81045826961248021535",
+		InvoiceCode: "036001900111",
+		InvoiceNumber: "09781653",
+		InvoiceDate: "20211017",
+		TotalAmount: "17.70",
+	}
+	assert.Equal(t,ans,ret)
+}
