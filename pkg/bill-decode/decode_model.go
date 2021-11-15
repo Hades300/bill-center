@@ -33,7 +33,7 @@ type BillImageBaiduResult struct {
 	InvoiceNumber string // 发票号码
 	InvoiceDate   string // 开票日期
 
-	TotalTax        string // 税额
+	TotalTax        string // 税额 单位：元
 	TotalAmount     string // 合计金额(不含税)
 	AmountInWords   string // 金额汉字大写
 	AmountInFigures string `json:"AmountInFiguers"`// 金额数字大写
