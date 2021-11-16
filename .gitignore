@@ -4,3 +4,5 @@ bill-decode-linux
 bill-decode.exe
 bill-decode
 .vscode/
+go.sum
+config.toml
