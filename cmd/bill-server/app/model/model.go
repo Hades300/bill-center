@@ -30,11 +30,12 @@ type Result struct {
 // User is the golang structure for table user.
 type User struct {
     Id          int         `json:"id"          `// 主键    
-    Phone       int         `json:"phone"       `// 手机号  
+    Phone       string      `json:"phone"       `// 手机号  
     Email       string      `json:"email"       `// 邮箱    
     GmtCreated  *gtime.Time `json:"gmtCreated"  `//         
     GmtModified *gtime.Time `json:"gmtModified" `//         
     Nickname    string      `json:"nickname"    `// 昵称    
+    Password    string      `json:"password"    `//         
 }
 
 

@@ -16,6 +16,5 @@ cbuild
 */.DS_Store
 main
 gf-empty
-config.toml
 .vscode
 go.sum

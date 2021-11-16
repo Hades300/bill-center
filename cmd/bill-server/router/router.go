@@ -2,13 +2,18 @@ package router
 
 import (
 	"bill-server/app/api"
-	"github.com/gogf/gf/frame/g"
-	"github.com/gogf/gf/net/ghttp"
+
+	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/net/ghttp"
 )
 
 func init() {
 	s := g.Server()
 	s.Group("/", func(group *ghttp.RouterGroup) {
 		group.ALL("/hello", api.Hello)
+	})
+	s.Group("/user",func(group *ghttp.RouterGroup) {
+		group.ALL("/login",api.User.Login)
+		group.ALL("/register",api.User.Register)
 	})
 }
