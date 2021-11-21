@@ -12,25 +12,25 @@ import (
 
 // UserResultDao is the data access object for table user_result.
 type UserResultDao struct {
-	Table   string          // Table is the underlying table name of the DAO.
-	Group   string          // Group is the database configuration group name of current DAO.
+	Table   string            // Table is the underlying table name of the DAO.
+	Group   string            // Group is the database configuration group name of current DAO.
 	Columns UserResultColumns // Columns contains all the column names of Table for convenient usage.
 }
 
 // UserResultColumns defines and stores column names for table user_result.
 type UserResultColumns struct {
-	UserId    string // 用户id                
-    FileHash  string // 文件哈希              
-    FileUrl   string // 若解析失败，上传文件  
-    ResultId  string // 结果id
+	UserId   string // 用户id
+	FileHash string // 文件哈希
+	FileUrl  string // 若解析失败，上传文件
+	ResultId string // 结果id
 }
 
 //  userResultColumns holds the columns for table user_result.
 var userResultColumns = UserResultColumns{
-	UserId:   "user_id",     
-            FileHash: "file_hash",   
-            FileUrl:  "file_url",    
-            ResultId: "result__id",
+	UserId:   "user_id",
+	FileHash: "file_hash",
+	FileUrl:  "file_url",
+	ResultId: "result_id",
 }
 
 // NewUserResultDao creates and returns a new DAO object for table data access.

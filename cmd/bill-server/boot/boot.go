@@ -1,7 +1,7 @@
 package boot
 
 import (
-	_ "bill-server/packed"
+	_ "github.com/hades300/bill-center/cmd/bill-server/packed"
 )
 
 func init() {

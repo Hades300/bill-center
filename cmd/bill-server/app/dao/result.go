@@ -5,7 +5,7 @@
 package dao
 
 import (
-	"bill-server/app/dao/internal"
+	"github.com/hades300/bill-center/cmd/bill-server/app/dao/internal"
 )
 
 // resultDao is the data access object for table result.

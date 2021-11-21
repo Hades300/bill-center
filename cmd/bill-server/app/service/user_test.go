@@ -1,9 +1,9 @@
 package service
 
 import (
-	"bill-server/app/model"
 	"encoding/json"
 	"fmt"
+	"github.com/hades300/bill-center/cmd/bill-server/app/model"
 	"testing"
 )
 
@@ -13,7 +13,7 @@ func TestRegisterUser(t *testing.T) {
 	user.Password = "test"
 	user.Email = "test@qq.com"
 	if err := User.RegisterByEmail(user); err != nil {
-		b,_:=json.Marshal(err)
+		b, _ := json.Marshal(err)
 		fmt.Print(string(b))
 	}
 }
