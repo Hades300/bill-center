@@ -7,7 +7,7 @@
 - [ ] bill parse web service **In Progress**
 - [ ] User CRUD **Almost**
 
-Project Layout Reference
+[Project Layout Reference](https://github.com/golang-standards/project-layout)
 
 ```text
 ├── README.md
