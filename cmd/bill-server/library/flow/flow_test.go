@@ -21,6 +21,7 @@ func TestLeaky_Wait(t *testing.T) {
 	}
 }
 
+// TODO: current not support Parallel use,should use singleton and extra lock
 func TestLeaky_WaitParallel(t *testing.T) {
 	var f = NewLeaky(2, 3)
 	begin := time.Now()
