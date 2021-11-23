@@ -12,43 +12,45 @@ import (
 
 // ResultDao is the data access object for table result.
 type ResultDao struct {
-	Table   string          // Table is the underlying table name of the DAO.
-	Group   string          // Group is the database configuration group name of current DAO.
+	Table   string        // Table is the underlying table name of the DAO.
+	Group   string        // Group is the database configuration group name of current DAO.
 	Columns ResultColumns // Columns contains all the column names of Table for convenient usage.
 }
 
 // ResultColumns defines and stores column names for table result.
 type ResultColumns struct {
-	Id               string //                     
-    InvoiceNumber    string // 发票号码            
-    InvoiceCode      string // 发票代码            
-    CheckCode        string // 校验码              
-    TotalTax         string // 总税额              
-    InvoiceDate      string // 开票日期            
-    AmountInWords    string // 总金额 文字         
-    TotalAmount      string // 合计金额（不含税）  
-    AmountInFigures  string // 总金额 数字         
-    Province         string // 省份                
-    InvoiceType      string // 发票类型            
-    SellerName       string // 卖方名称            
-    ParseType        string // qrcode\baidu\ocr
+	Id              string //
+	InvoiceNumber   string // 发票号码
+	InvoiceCode     string // 发票代码
+	CheckCode       string // 校验码
+	TotalTax        string // 总税额
+	InvoiceDate     string // 开票日期
+	AmountInWords   string // 总金额 文字
+	TotalAmount     string // 合计金额（不含税）
+	AmountInFigures string // 总金额 数字
+	Province        string // 省份
+	InvoiceType     string // 发票类型
+	SellerName      string // 卖方名称
+	ParseType       string // qrcode\baidu\ocr
+	ErrMsg          string // empty for success
 }
 
 //  resultColumns holds the columns for table result.
 var resultColumns = ResultColumns{
-	Id:              "id",                 
-            InvoiceNumber:   "invoice_number",     
-            InvoiceCode:     "invoice_code",       
-            CheckCode:       "check_code",         
-            TotalTax:        "total_tax",          
-            InvoiceDate:     "invoice_date",       
-            AmountInWords:   "amount_in_words",    
-            TotalAmount:     "total_amount",       
-            AmountInFigures: "amount_in_figures",  
-            Province:        "province",           
-            InvoiceType:     "invoice_type",       
-            SellerName:      "seller_name",        
-            ParseType:       "parse_type",
+	Id:              "id",
+	InvoiceNumber:   "invoice_number",
+	InvoiceCode:     "invoice_code",
+	CheckCode:       "check_code",
+	TotalTax:        "total_tax",
+	InvoiceDate:     "invoice_date",
+	AmountInWords:   "amount_in_words",
+	TotalAmount:     "total_amount",
+	AmountInFigures: "amount_in_figures",
+	Province:        "province",
+	InvoiceType:     "invoice_type",
+	SellerName:      "seller_name",
+	ParseType:       "parse_type",
+	ErrMsg:          "err_msg",
 }
 
 // NewResultDao creates and returns a new DAO object for table data access.

@@ -15,6 +15,7 @@ type ResultCreateServiceArgs struct {
 	InvoiceType     string      `orm:"invoice_type"     `  // 发票类型
 	SellerName      string      `orm:"seller_name"      `  // 卖方名称
 	ParseType       string      `orm:"parse_type"       `  // qrcode\baidu\ocr
+	ErrMsg          string      `orm:"err_msg"`            // empty for success
 }
 
 type UserResultCreateServiceArgs struct {

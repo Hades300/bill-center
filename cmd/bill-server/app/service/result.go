@@ -24,6 +24,7 @@ type resultServiceI interface {
 	saveResult(recordArgs *model.UserResultCreateServiceArgs, result *model.ResultCreateServiceArgs) error
 
 	Parse(file string) (*model.Result, error)
+	//ParseRaw(typ string,reader io.Reader)(*model.Result,error)
 	parseByBaidu(filename string) (result *model.Result, err error)
 	parseByQrcode(filename string) (result *model.Result, err error)
 	parseByOCR(filepath string) (result *model.Result, err error)
@@ -35,7 +36,7 @@ type resultService struct {
 
 var _ resultServiceI = (*resultService)(nil)
 
-var Result = resultService{}
+var Result = NewResultService()
 
 func NewResultService() resultServiceI {
 	return &resultService{
@@ -43,7 +44,7 @@ func NewResultService() resultServiceI {
 	}
 }
 
-// return result if filehash exists
+// return result if file hash exists
 func (r *resultService) cachedResult(fileHash string) (*model.Result, error) {
 	var userResult model.UserResult
 	var result model.Result
@@ -93,6 +94,8 @@ func (r *resultService) parseByBaidu(file string) (*model.Result, error) {
 	ret.InvoiceNumber = resp.InvoiceNumber
 	ret.Province = resp.Province
 	ret.SellerName = resp.SellerName
+	ret.TotalTax = resp.TotalTax
+	ret.InvoiceType = resp.InvoiceType
 
 	return &ret, nil
 }
@@ -115,10 +118,13 @@ func (r *resultService) Parse(file string) (*model.Result, error) {
 	var result *model.Result
 	switch typ {
 	case "pdf":
-	case "jpeg", "jpg", "png":
+	case "jpeg", "jpg", "png", "jfif":
 		result, err = r.parseByBaidu(file)
 	default:
 		return nil, ErrFileTypeNotAllowed
+	}
+	if err != nil {
+		result = &model.Result{ErrMsg: err.Error()}
 	}
 	//cache result
 	recordArgs := model.UserResultCreateServiceArgs{
@@ -131,8 +137,7 @@ func (r *resultService) Parse(file string) (*model.Result, error) {
 	if err := convert.Transform(result, &resultArgs); err != nil {
 		return nil, err
 	}
-	err = r.saveResult(&recordArgs, &resultArgs)
-	if err != nil {
+	if err := r.saveResult(&recordArgs, &resultArgs); err != nil {
 		return nil, err
 	}
 	return result, err
@@ -163,6 +168,11 @@ func calcFileHash(file string) (string, error) {
 	if err != nil {
 		return "", err
 	}
+	return calcContentHash(content)
+}
+
+// generate file hash digest
+func calcContentHash(content []byte) (string, error) {
 	h := hmac.New(md5.New, []byte("bill-center"))
 	h.Write(content)
 	return fmt.Sprintf("%x", h.Sum(nil)), nil

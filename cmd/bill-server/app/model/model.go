@@ -4,45 +4,43 @@
 
 package model
 
-import(
-"github.com/gogf/gf/v2/os/gtime"
+import (
+	"github.com/gogf/gf/v2/os/gtime"
 )
-
 
 // Result is the golang structure for table result.
 type Result struct {
-    Id              int         `json:"id"              `//                     
-    InvoiceNumber   string      `json:"invoiceNumber"   `// 发票号码            
-    InvoiceCode     string      `json:"invoiceCode"     `// 发票代码            
-    CheckCode       string      `json:"checkCode"       `// 校验码              
-    TotalTax        string      `json:"totalTax"        `// 总税额              
-    InvoiceDate     *gtime.Time `json:"invoiceDate"     `// 开票日期            
-    AmountInWords   string      `json:"amountInWords"   `// 总金额 文字         
-    TotalAmount     string      `json:"totalAmount"     `// 合计金额（不含税）  
-    AmountInFigures string      `json:"amountInFigures" `// 总金额 数字         
-    Province        string      `json:"province"        `// 省份                
-    InvoiceType     string      `json:"invoiceType"     `// 发票类型            
-    SellerName      string      `json:"sellerName"      `// 卖方名称            
-    ParseType       string      `json:"parseType"       `// qrcode\baidu\ocr    
+	Id              int         `json:"id"              ` //
+	InvoiceNumber   string      `json:"invoiceNumber"   ` // 发票号码
+	InvoiceCode     string      `json:"invoiceCode"     ` // 发票代码
+	CheckCode       string      `json:"checkCode"       ` // 校验码
+	TotalTax        string      `json:"totalTax"        ` // 总税额
+	InvoiceDate     *gtime.Time `json:"invoiceDate"     ` // 开票日期
+	AmountInWords   string      `json:"amountInWords"   ` // 总金额 文字
+	TotalAmount     string      `json:"totalAmount"     ` // 合计金额（不含税）
+	AmountInFigures string      `json:"amountInFigures" ` // 总金额 数字
+	Province        string      `json:"province"        ` // 省份
+	InvoiceType     string      `json:"invoiceType"     ` // 发票类型
+	SellerName      string      `json:"sellerName"      ` // 卖方名称
+	ParseType       string      `json:"parseType"       ` // qrcode\baidu\ocr
+	ErrMsg          string      `json:"errMsg"          ` // empty for success
 }
-
 
 // User is the golang structure for table user.
 type User struct {
-    Id          int         `json:"id"          `// 主键    
-    Phone       string      `json:"phone"       `// 手机号  
-    Email       string      `json:"email"       `// 邮箱    
-    GmtCreated  *gtime.Time `json:"gmtCreated"  `//         
-    GmtModified *gtime.Time `json:"gmtModified" `//         
-    Nickname    string      `json:"nickname"    `// 昵称    
-    Password    string      `json:"password"    `//         
+	Id          int         `json:"id"          ` // 主键
+	Phone       string      `json:"phone"       ` // 手机号
+	Email       string      `json:"email"       ` // 邮箱
+	GmtCreated  *gtime.Time `json:"gmtCreated"  ` //
+	GmtModified *gtime.Time `json:"gmtModified" ` //
+	Nickname    string      `json:"nickname"    ` // 昵称
+	Password    string      `json:"password"    ` //
 }
-
 
 // UserResult is the golang structure for table user_result.
 type UserResult struct {
-    UserId   int    `json:"userId"   `// 用户id                
-    FileHash string `json:"fileHash" `// 文件哈希              
-    FileUrl  string `json:"fileUrl"  `// 若解析失败，上传文件  
-    ResultId int    `json:"resultId" `// 结果id                
+	UserId   int    `json:"userId"   ` // 用户id
+	FileHash string `json:"fileHash" ` // 文件哈希
+	FileUrl  string `json:"fileUrl"  ` // 若解析失败，上传文件
+	ResultId int    `json:"resultId" ` // 结果id
 }

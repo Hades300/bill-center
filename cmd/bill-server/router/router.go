@@ -13,7 +13,13 @@ func init() {
 		group.ALL("/hello", api.Hello)
 	})
 	s.Group("/user", func(group *ghttp.RouterGroup) {
+		group.Middleware(MiddlewareCORS)
 		group.ALL("/login", api.User.Login)
 		group.ALL("/register", api.User.Register)
+	})
+
+	s.Group("/", func(group *ghttp.RouterGroup) {
+		group.Middleware(MiddlewareCORS)
+		group.POST("/parse", api.Result.Parse)
 	})
 }
