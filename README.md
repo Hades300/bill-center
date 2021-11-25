@@ -42,6 +42,25 @@
 
 download release
 
+11-25: dir parse supported
+
 ```bash
 bill-decode -pdf "invoce.pdf"
+# 11-25: dir parse supported
+bill-decode -dir "."
+
+#hades300@Hades:/mnt/c/Users/10189/Desktop/报销发票$ bill-decode -dir .
+#文件名：/mnt/c/Users/10189/Desktop/报销发票/深入解析CSS.pdf
+#校验码   69971408812971265095
+#发票代码         031002100311
+#发票号码         83057117
+#开票日期         20211125
+#合计金额(不含税)         116.40
+#
+#文件名：/mnt/c/Users/10189/Desktop/报销发票/RDS.pdf
+#校验码   74664259960234463970
+#发票代码         033002100411
+#发票号码         79636701
+#开票日期         20211124
+#合计金额(不含税)         56.51
 ```
