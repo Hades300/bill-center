@@ -3,6 +3,8 @@ package bill_decode
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
+	"reflect"
 	"strings"
 )
 
@@ -51,20 +53,31 @@ func (b *BillImageBaiduResult) String() string {
 }
 
 type BillImageQRCodeResult struct {
-	CheckCode       string // 校验码
-	InvoiceCode     string // 发票代码
-	InvoiceNumber   string // 发票号码
-	InvoiceDate     string // 开票日期
-	AmountInFigures string // 合计金额
-	TotalAmount     string // 合计金额(不含税)
+	CheckCode     string `bill:"校验码"`  // 校验码
+	InvoiceCode   string `bill:"发票代码"` // 发票代码
+	InvoiceNumber string `bill:"发票号码"` // 发票号码
+	InvoiceDate   string `bill:"开票日期"` // 开票日期
+	//AmountInFigures string `bill:"合计金额"` // 合计金额
+	TotalAmount string `bill:"合计金额(不含税)"` // 合计金额(不含税)
+}
+
+func (b BillImageQRCodeResult) String() string {
+	var ret string
+	v := reflect.ValueOf(b)
+	t := reflect.TypeOf(b)
+	for i := 0; i < v.NumField(); i++ {
+		f := v.Field(i)
+		ret += fmt.Sprintln(t.Field(i).Tag.Get("bill"), "\t", f.Interface())
+	}
+	return ret
 }
 
 // ParseBillImageQRCodeResult parse qrcode result into BillImageQRCodeResult
 // example: 01,10,036001900111,09781653,17.70,20211017,81045826961248021535,134F,
-func ParseBillImageQRCodeResult(content []byte) (*BillImageQRCodeResult, error) {
-	s := string(content)
+func ParseBillImageQRCodeResult(s string) (*BillImageQRCodeResult, error) {
 	partList := strings.Split(s, ",")
 	if len(partList) != 9 {
+		fmt.Println(s)
 		return nil, errors.New("qrcode result is invalid")
 	}
 	var ret BillImageQRCodeResult
@@ -72,7 +85,7 @@ func ParseBillImageQRCodeResult(content []byte) (*BillImageQRCodeResult, error) 
 	ret.InvoiceCode = partList[2]
 	ret.InvoiceNumber = partList[3]
 	ret.InvoiceDate = partList[5]
-	ret.AmountInFigures = ""
+	//ret.AmountInFigures = ""
 	ret.TotalAmount = partList[4]
 	return &ret, nil
 }

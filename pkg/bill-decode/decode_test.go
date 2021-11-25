@@ -90,7 +90,7 @@ func TestBaiduImageOCRByFileBenchMark(t *testing.T) {
 
 func TestParseBillImageQRCodeResult(t *testing.T) {
 	s := "01,10,036001900111,09781653,17.70,20211017,81045826961248021535,134F,"
-	ret, err := ParseBillImageQRCodeResult([]byte(s))
+	ret, err := ParseBillImageQRCodeResult(s)
 	assert.NoError(t, err)
 	ans := &BillImageQRCodeResult{
 		CheckCode:     "81045826961248021535",
@@ -99,5 +99,6 @@ func TestParseBillImageQRCodeResult(t *testing.T) {
 		InvoiceDate:   "20211017",
 		TotalAmount:   "17.70",
 	}
+	fmt.Println(ret)
 	assert.Equal(t, ans, ret)
 }
