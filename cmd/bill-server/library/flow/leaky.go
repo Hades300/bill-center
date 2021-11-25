@@ -2,6 +2,7 @@ package flow
 
 import (
 	"errors"
+	"sync"
 	"time"
 )
 
@@ -20,14 +21,16 @@ type Leaky struct {
 	last int64
 	// current flow in bucket
 	flow int64
+	// mutex
+	m sync.Mutex
 }
 
 // NewLeaky returns a leaky bucket flow control
 func NewLeaky(rate int64, gap int64) *Leaky {
-	return &Leaky{rate: rate, gap: gap}
+	return &Leaky{rate: rate, gap: gap, m: sync.Mutex{}}
 }
 
-func (l *Leaky) Get(n int64) bool {
+func (l *Leaky) get(n int64) bool {
 	if n > l.rate {
 		// exceed rate
 		return false
@@ -51,11 +54,13 @@ func (l *Leaky) Get(n int64) bool {
 }
 
 func (l *Leaky) Wait(n int64) error {
+	l.m.Lock()
+	defer l.m.Unlock()
 	if n > l.rate {
 		// exceed rate
 		return ErrExceedRate
 	}
-	try := l.Get(n)
+	try := l.get(n)
 	if try {
 		return nil
 	}
@@ -66,23 +71,6 @@ func (l *Leaky) Wait(n int64) error {
 	now := time.Now().Unix()
 	l.last = now
 	return nil
-}
-
-// willing to cost time, but if we can't afford, then fail fast
-func (l *Leaky) TryWait(n int64, millisecond time.Duration) bool {
-	try := l.Get(n)
-	if try {
-		return true
-	}
-	// calc next time
-	waitTime := int(float64(n-l.flow) / float64(l.rate) * float64(l.gap) * 1000) // millisecond
-	if waitTime > int(millisecond/time.Millisecond) {
-		return false
-	}
-	time.Sleep(time.Duration(waitTime) * time.Millisecond)
-	now := time.Now().Unix()
-	l.last = now
-	return true
 }
 
 func min(a int64, b int64) int64 {
