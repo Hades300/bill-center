@@ -2,11 +2,12 @@ package service
 
 import (
 	"fmt"
-	"github.com/hades300/bill-center/cmd/bill-server/library/convert"
-	bill_decode "github.com/hades300/bill-center/pkg/bill-decode"
 	"log"
 	"testing"
 
+	"github.com/gogf/gf/v2/os/gtime"
+	"github.com/hades300/bill-center/cmd/bill-server/library/convert"
+	bill_decode "github.com/hades300/bill-center/pkg/bill-decode"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -36,6 +37,8 @@ func TestExtractFields(t *testing.T) {
 	fmt.Println(convert.ExtractFields(s))
 }
 
-func TestTransform(t *testing.T) {
-
+func TestParseTime(t *testing.T) {
+	s := "2021年10月17日"
+	ret := gtime.NewFromStrFormat(s, "Y年n月d日")
+	assert.NotNil(t, ret)
 }

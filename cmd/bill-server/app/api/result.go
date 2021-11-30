@@ -1,6 +1,7 @@
 package api
 
 import (
+	"github.com/hades300/bill-center/cmd/bill-server/app/model"
 	"os"
 	"path"
 
@@ -41,5 +42,6 @@ func (ra *ResultApi) Parse(r *ghttp.Request) {
 	if err != nil {
 		JsonErrExit(r, 1, err.Error())
 	}
-	JsonSuccessExit(r, "", ret)
+	vo, err := model.ToResultVO(ret)
+	JsonSuccessExit(r, "", vo)
 }

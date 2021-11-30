@@ -6,12 +6,15 @@ import (
 	"crypto/md5"
 	"errors"
 	"fmt"
+	"github.com/gogf/gf/v2/os/gfile"
+	"io/ioutil"
+
 	"github.com/gogf/gf/v2/database/gdb"
+	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/hades300/bill-center/cmd/bill-server/app/dao"
 	"github.com/hades300/bill-center/cmd/bill-server/app/model"
 	"github.com/hades300/bill-center/cmd/bill-server/library/convert"
 	Decode "github.com/hades300/bill-center/pkg/bill-decode"
-	"io/ioutil"
 )
 
 var (
@@ -24,9 +27,8 @@ type resultServiceI interface {
 	saveResult(recordArgs *model.UserResultCreateServiceArgs, result *model.ResultCreateServiceArgs) error
 
 	Parse(file string) (*model.Result, error)
-	//ParseRaw(typ string,reader io.Reader)(*model.Result,error)
 	parseByBaidu(filename string) (result *model.Result, err error)
-	parseByQrcode(filename string) (result *model.Result, err error)
+	parseByQrcode(filepath string) (*model.Result, error)
 	parseByOCR(filepath string) (result *model.Result, err error)
 }
 
@@ -40,7 +42,7 @@ var Result = NewResultService()
 
 func NewResultService() resultServiceI {
 	return &resultService{
-		client: Decode.NewBdClient(),
+		client: Decode.DefaultClient,
 	}
 }
 
@@ -90,7 +92,7 @@ func (r *resultService) parseByBaidu(file string) (*model.Result, error) {
 	ret.CheckCode = resp.CheckCode
 	ret.AmountInWords = resp.AmountInWords
 	ret.InvoiceCode = resp.InvoiceCode
-	// ret.InvoiceDate = resp.InvoiceDate
+	ret.InvoiceDate = gtime.NewFromStrFormat(resp.InvoiceDate, "Y年n月d日")
 	ret.InvoiceNumber = resp.InvoiceNumber
 	ret.Province = resp.Province
 	ret.SellerName = resp.SellerName
@@ -118,8 +120,12 @@ func (r *resultService) Parse(file string) (*model.Result, error) {
 	var result *model.Result
 	switch typ {
 	case "pdf":
+		result, err = r.parseByQrcode(file)
 	case "jpeg", "jpg", "png", "jfif":
-		result, err = r.parseByBaidu(file)
+		result, err = r.parseByQrcode(file)
+		if err != nil {
+			result, err = r.parseByBaidu(file)
+		}
 	default:
 		return nil, ErrFileTypeNotAllowed
 	}
@@ -143,11 +149,38 @@ func (r *resultService) Parse(file string) (*model.Result, error) {
 	return result, err
 }
 
-func (r *resultService) parseByQrcode(filename string) (result *model.Result, err error) {
-	panic("implement me")
+func (r *resultService) parseByQrcode(filepath string) (*model.Result, error) {
+	ext := gfile.ExtName(filepath)
+	var (
+		s   string
+		err error
+	)
+	// get string from qrcode
+	if ext == "pdf" {
+		s, err = Decode.GetFirstQrCodeFromPDF(filepath)
+	}
+	s, err = Decode.ParseQRCodeFromImage(filepath)
+	if err != nil {
+		return nil, err
+	}
+	// parse string to bill result
+	ret, err := Decode.ParseBillImageQRCodeResult(s)
+	if err != nil {
+		return nil, err
+	}
+	// convert to uni model.Result
+	var result model.Result
+	err = convert.Transform(ret, &result)
+	if err != nil {
+		return nil, err
+	}
+	// fix time type
+	result.InvoiceDate = gtime.NewFromStrFormat(ret.InvoiceDate, "Ymd")
+	result.ParseType = "qrcode"
+	return &result, nil
 }
 
-func (r *resultService) parseByOCR(filepath string) (result *model.Result, err error) {
+func (r *resultService) parseByOCR(filepath string) (*model.Result, error) {
 	panic("implement me")
 }
 

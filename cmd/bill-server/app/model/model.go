@@ -8,6 +8,17 @@ import (
 	"github.com/gogf/gf/v2/os/gtime"
 )
 
+// Collection is the golang structure for table collection.
+type Collection struct {
+	Title       string      `json:"title"       ` // 集合标题
+	UserId      int         `json:"userId"      ` // 外键 留用
+	Id          uint        `json:"id"          ` // 主键
+	UserIp      string      `json:"userIp"      ` // 用户IP
+	GmtCreated  *gtime.Time `json:"gmtCreated"  ` // 创建UTC时间
+	Code        int         `json:"code"        ` // 集合密码
+	GmtModified *gtime.Time `json:"gmtModified" ` // 更新UTC时间
+}
+
 // Result is the golang structure for table result.
 type Result struct {
 	Id              int         `json:"id"              ` //

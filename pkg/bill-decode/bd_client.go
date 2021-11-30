@@ -3,6 +3,7 @@ package bill_decode
 import (
 	"encoding/base64"
 	"encoding/json"
+	"github.com/hades300/bill-center/cmd/bill-server/library/flow"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -14,11 +15,12 @@ type BdClient struct {
 	cache      map[string]string
 	baseParams map[string]string
 	client     *http.Client
+	fc         *flow.Leaky
 }
 
-var bdClient = NewBdClient()
+var DefaultClient = NewBdClient(2, 3)
 
-func NewBdClient() *BdClient {
+func NewBdClient(rate int64, gap int64) *BdClient {
 	p := map[string]string{
 		"type":             "https://aip.baidubce.com/rest/2.0/ocr/v1/vat_invoice",
 		"aiPortalDemoType": "normal",
@@ -29,6 +31,7 @@ func NewBdClient() *BdClient {
 		cache:      make(map[string]string),
 		baseParams: p,
 		client:     &http.Client{},
+		fc:         flow.NewLeaky(rate, gap),
 	}
 }
 
@@ -67,6 +70,7 @@ func getBase64(f string) string {
 }
 
 func (c *BdClient) post(u string, params map[string]string, ptr interface{}) error {
+	_ = c.fc.Wait(1) // flow control
 	var param = url.Values{}
 	for k, v := range c.baseParams {
 		param.Set(k, v)

@@ -62,8 +62,15 @@ type BillImageQRCodeResult struct {
 }
 
 func (b BillImageQRCodeResult) String() string {
+	return BillString(b)
+}
+
+func BillString(b interface{}) string {
 	var ret string
 	v := reflect.ValueOf(b)
+	if v.Kind() == reflect.Ptr {
+		v = v.Elem()
+	}
 	t := reflect.TypeOf(b)
 	for i := 0; i < v.NumField(); i++ {
 		f := v.Field(i)

@@ -1,6 +1,9 @@
 package model
 
-import "github.com/gogf/gf/v2/os/gtime"
+import (
+	"errors"
+	"github.com/gogf/gf/v2/os/gtime"
+)
 
 type ResultCreateServiceArgs struct {
 	InvoiceNumber   string      `orm:"invoice_number"   `  // 发票号码
@@ -23,4 +26,33 @@ type UserResultCreateServiceArgs struct {
 	FileHash string `orm:"file_hash" ` // 文件哈希
 	FileUrl  string `orm:"file_url"  ` // 若解析失败，上传文件
 	ResultId int    `orm:"result_id" ` // 结果id
+}
+
+type ResultVO struct {
+	InvoiceNumber string `json:"invoice_number"   ` // 发票号码
+	InvoiceCode   string `json:"invoice_code"     ` // 发票代码
+	CheckCode     string `json:"check_code"       ` // 校验码
+	InvoiceDate   string `json:"invoice_date"     ` // 开票日期
+	TotalAmount   string `json:"total_amount"     ` // 合计金额（不含税）
+	InvoiceType   string `json:"invoice_type"     ` // 发票类型
+	SellerName    string `json:"seller_name"      ` // 卖方名称
+	ParseType     string `json:"parse_type"       ` // qrcode\baidu\ocr
+}
+
+func ToResultVO(result *Result) (*ResultVO, error) {
+	if result.ErrMsg != "" {
+		return nil, errors.New(result.ErrMsg)
+	}
+	timeStr := result.InvoiceDate.Format("Ymd")
+	ret := ResultVO{
+		InvoiceNumber: result.InvoiceNumber,
+		InvoiceCode:   result.InvoiceCode,
+		CheckCode:     result.CheckCode,
+		InvoiceDate:   timeStr,
+		TotalAmount:   result.TotalAmount,
+		InvoiceType:   result.InvoiceType,
+		SellerName:    result.SellerName,
+		ParseType:     result.ParseType,
+	}
+	return &ret, nil
 }
