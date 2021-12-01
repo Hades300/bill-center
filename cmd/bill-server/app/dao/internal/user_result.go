@@ -19,18 +19,20 @@ type UserResultDao struct {
 
 // UserResultColumns defines and stores column names for table user_result.
 type UserResultColumns struct {
-	UserId   string // 用户id
-	FileHash string // 文件哈希
-	FileUrl  string // 若解析失败，上传文件
-	ResultId string // 结果id
+	UserId       string // 用户id
+	FileHash     string // 文件哈希
+	FileUrl      string // 若解析失败，上传文件
+	ResultId     string // 结果id
+	CollectionId string // 集合id
 }
 
 //  userResultColumns holds the columns for table user_result.
 var userResultColumns = UserResultColumns{
-	UserId:   "user_id",
-	FileHash: "file_hash",
-	FileUrl:  "file_url",
-	ResultId: "result_id",
+	UserId:       "user_id",
+	FileHash:     "file_hash",
+	FileUrl:      "file_url",
+	ResultId:     "result_id",
+	CollectionId: "collection_id",
 }
 
 // NewUserResultDao creates and returns a new DAO object for table data access.

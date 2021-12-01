@@ -15,8 +15,10 @@ type Collection struct {
 	Id          uint        `json:"id"          ` // 主键
 	UserIp      string      `json:"userIp"      ` // 用户IP
 	GmtCreated  *gtime.Time `json:"gmtCreated"  ` // 创建UTC时间
-	Code        int         `json:"code"        ` // 集合密码
+	Code        string      `json:"code"        ` // 集合密码
 	GmtModified *gtime.Time `json:"gmtModified" ` // 更新UTC时间
+	Ttl         int         `json:"ttl"         ` // 有效期（单位秒）
+	ValidBefore *gtime.Time `json:"validBefore" ` // 失效时间(后端主动控制）
 }
 
 // Result is the golang structure for table result.
@@ -48,10 +50,17 @@ type User struct {
 	Password    string      `json:"password"    ` //
 }
 
+// UserCollection is the golang structure for table user_collection.
+type UserCollection struct {
+	UserId       int `json:"userId"       ` //
+	CollectionId int `json:"collectionId" ` //
+}
+
 // UserResult is the golang structure for table user_result.
 type UserResult struct {
-	UserId   int    `json:"userId"   ` // 用户id
-	FileHash string `json:"fileHash" ` // 文件哈希
-	FileUrl  string `json:"fileUrl"  ` // 若解析失败，上传文件
-	ResultId int    `json:"resultId" ` // 结果id
+	UserId       int    `json:"userId"       ` // 用户id
+	FileHash     string `json:"fileHash"     ` // 文件哈希
+	FileUrl      string `json:"fileUrl"      ` // 若解析失败，上传文件
+	ResultId     int    `json:"resultId"     ` // 结果id
+	CollectionId int    `json:"collectionId" ` // 集合id
 }
