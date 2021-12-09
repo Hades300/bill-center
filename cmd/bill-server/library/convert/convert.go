@@ -70,6 +70,7 @@ func SetFields(obj interface{}, data map[string]interface{}) error {
 }
 
 // Transform transform struct to another struct
+// TODO: gtime.Time type can't be convert,why ?
 func Transform(obj interface{}, dst interface{}) error {
 	data := ExtractFields(obj)
 	return SetFields(dst, data)

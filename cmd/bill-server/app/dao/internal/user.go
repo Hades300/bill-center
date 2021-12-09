@@ -12,31 +12,31 @@ import (
 
 // UserDao is the data access object for table user.
 type UserDao struct {
-	Table   string          // Table is the underlying table name of the DAO.
-	Group   string          // Group is the database configuration group name of current DAO.
+	Table   string      // Table is the underlying table name of the DAO.
+	Group   string      // Group is the database configuration group name of current DAO.
 	Columns UserColumns // Columns contains all the column names of Table for convenient usage.
 }
 
 // UserColumns defines and stores column names for table user.
 type UserColumns struct {
-	Id           string // 主键    
-    Phone        string // 手机号  
-    Email        string // 邮箱    
-    GmtCreated   string //         
-    GmtModified  string //         
-    Nickname     string // 昵称    
-    Password     string //
+	Id          string // 主键
+	Phone       string // 手机号
+	Email       string // 邮箱
+	GmtCreated  string //
+	GmtModified string //
+	Nickname    string // 昵称
+	Password    string //
 }
 
 //  userColumns holds the columns for table user.
 var userColumns = UserColumns{
-	Id:          "id",           
-            Phone:       "phone",        
-            Email:       "email",        
-            GmtCreated:  "gmtCreated",   
-            GmtModified: "gmtModified",  
-            Nickname:    "nickname",     
-            Password:    "password",
+	Id:          "id",
+	Phone:       "phone",
+	Email:       "email",
+	GmtCreated:  "gmtCreated",
+	GmtModified: "gmtModified",
+	Nickname:    "nickname",
+	Password:    "password",
 }
 
 // NewUserDao creates and returns a new DAO object for table data access.

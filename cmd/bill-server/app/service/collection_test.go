@@ -20,6 +20,6 @@ func TestCollectionService_FetchCollectionByCode(t *testing.T) {
 func TestCollectionService_RegisterCollection(t *testing.T) {
 	s := NewCollectionService()
 	code := "412423"
-	err := s.RegisterCollection(code, "0", ":", 3600)
+	err := s.RegisterCollection(code, "0", ":", 3600*24*7)
 	assert.Nil(t, err)
 }

@@ -23,7 +23,7 @@ type Collection struct {
 
 // Result is the golang structure for table result.
 type Result struct {
-	Id              int         `json:"id"              ` //
+	Id              uint        `json:"id"              ` //
 	InvoiceNumber   string      `json:"invoiceNumber"   ` // 发票号码
 	InvoiceCode     string      `json:"invoiceCode"     ` // 发票代码
 	CheckCode       string      `json:"checkCode"       ` // 校验码
@@ -41,7 +41,7 @@ type Result struct {
 
 // User is the golang structure for table user.
 type User struct {
-	Id          int         `json:"id"          ` // 主键
+	Id          uint        `json:"id"          ` // 主键
 	Phone       string      `json:"phone"       ` // 手机号
 	Email       string      `json:"email"       ` // 邮箱
 	GmtCreated  *gtime.Time `json:"gmtCreated"  ` //
@@ -50,17 +50,11 @@ type User struct {
 	Password    string      `json:"password"    ` //
 }
 
-// UserCollection is the golang structure for table user_collection.
-type UserCollection struct {
-	UserId       int `json:"userId"       ` //
-	CollectionId int `json:"collectionId" ` //
-}
-
 // UserResult is the golang structure for table user_result.
 type UserResult struct {
-	UserId       int    `json:"userId"       ` // 用户id
+	UserId       uint   `json:"userId"       ` // 用户id
 	FileHash     string `json:"fileHash"     ` // 文件哈希
 	FileUrl      string `json:"fileUrl"      ` // 若解析失败，上传文件
-	ResultId     int    `json:"resultId"     ` // 结果id
-	CollectionId int    `json:"collectionId" ` // 集合id
+	ResultId     uint   `json:"resultId"     ` // 结果id
+	CollectionId uint   `json:"collectionId" ` // 集合id
 }

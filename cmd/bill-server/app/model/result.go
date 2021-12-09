@@ -22,10 +22,15 @@ type ResultCreateServiceArgs struct {
 }
 
 type UserResultCreateServiceArgs struct {
-	UserId   int    `orm:"user_id"   ` // 用户id
-	FileHash string `orm:"file_hash" ` // 文件哈希
-	FileUrl  string `orm:"file_url"  ` // 若解析失败，上传文件
-	ResultId int    `orm:"result_id" ` // 结果id
+	UserId       int    `orm:"user_id"   ` // 用户id
+	FileHash     string `orm:"file_hash" ` // 文件哈希
+	FileUrl      string `orm:"file_url"  ` // 若解析失败，上传文件
+	ResultId     int    `orm:"result_id" ` // 结果id
+	CollectionId string // 集合id
+}
+
+type ResultParseApiArgs struct {
+	CollectionId string `v:"required#集合id是必要的"`
 }
 
 type ResultVO struct {
@@ -37,6 +42,7 @@ type ResultVO struct {
 	InvoiceType   string `json:"invoice_type"     ` // 发票类型
 	SellerName    string `json:"seller_name"      ` // 卖方名称
 	ParseType     string `json:"parse_type"       ` // qrcode\baidu\ocr
+	FileURL       string `json:"file_url"`
 }
 
 func ToResultVO(result *Result) (*ResultVO, error) {

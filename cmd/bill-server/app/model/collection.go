@@ -7,12 +7,20 @@ import (
 
 type CreateCollectionApiArgs struct {
 	Title string `v:"required#标题是必要的`   // 集合标题
-	Code  string `v:"required#分享码是必要的`  // 集合密码
 	Ttl   int    `v:"required#有效期是必要的"` // 有效期（单位秒）
 }
 
 type FetchCollectionApiArgs struct {
 	Code string `v:"required#分享码是必要的"` // 集合密码
+}
+
+type CreateCollectionServiceArgs struct {
+	Title       string      `json:"title"       ` // 集合标题
+	UserId      int         `json:"userId"      ` // 外键 留用
+	Ttl         int         `json:"ttl"         ` // 有效期（单位秒）
+	ValidBefore *gtime.Time `json:"validBefore" ` // 失效时间(后端主动控制）
+	UserIp      string      `json:"userIp"      ` // 用户IP
+	Code        string      `json:"code"        ` // 集合密码
 }
 
 type CollectionVO struct {
